@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class FPSController : MonoBehaviour
 {
@@ -27,7 +28,9 @@ public class FPSController : MonoBehaviour
 
     // properties
     public GameObject Cam { get { return cam; } }
-    
+
+    // Unity Events
+    public UnityAction interaction;
 
     private void Awake()
     {
@@ -49,6 +52,7 @@ public class FPSController : MonoBehaviour
     {
         Movement();
         Look();
+        Interact();
 
         FireGun();
 
@@ -171,5 +175,14 @@ public class FPSController : MonoBehaviour
             var knockbackAngle = (transform.position - collisionPoint).normalized;
             velocity = (20 * knockbackAngle);
         }
+    }
+
+    void Interact()
+    {
+        if (Input.GetButtonDown("Interact"))
+        {
+            interaction?.Invoke();
+        }
+            
     }
 }

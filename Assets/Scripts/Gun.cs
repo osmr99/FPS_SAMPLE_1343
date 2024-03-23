@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Gun : MonoBehaviour
 {
@@ -16,6 +17,9 @@ public class Gun : MonoBehaviour
     // private variables
     int ammo;
     float elapsed = 0;
+
+    // Unity event
+    public UnityEvent<int> updateAmmoHUD;
 
     // Start is called before the first frame update
     void Start()
@@ -46,6 +50,7 @@ public class Gun : MonoBehaviour
         anim.SetTrigger("shoot");
         timeBetweenShots = 0;
         ammo -= 1;
+        updateAmmoHUD?.Invoke(ammo);
 
         return true;
     }
@@ -53,5 +58,8 @@ public class Gun : MonoBehaviour
     public void AddAmmo(int amount)
     {
         ammo += amount;
+        if (ammo > maxAmmo)
+            ammo = maxAmmo;
+        updateAmmoHUD?.Invoke(ammo);
     }
 }
