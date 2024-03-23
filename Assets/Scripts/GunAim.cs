@@ -13,6 +13,8 @@ public class GunAim : MonoBehaviour
 
     [SerializeField] Color colorValidTarget;
     [SerializeField] Color colorNoValidTarget;
+
+    bool isAlive = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +25,11 @@ public class GunAim : MonoBehaviour
     void Update()
     {
         Aim();
+        if(isAlive == false)
+        {
+            gameObject.SetActive(false);
+            GameObject.Destroy(crosshair);
+        }
     }
 
     void Aim()
@@ -41,5 +48,10 @@ public class GunAim : MonoBehaviour
         crosshair.color = colorNoValidTarget;
         //gun.forward = forward;
         barrelEnd.forward = forward;
+    }
+
+    public void isNotAlive()
+    {
+        isAlive = false;
     }
 }

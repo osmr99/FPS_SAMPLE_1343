@@ -17,6 +17,7 @@ public class FPSController : MonoBehaviour
     [SerializeField] float lookSensitivityY = 1.0f;
     [SerializeField] float gravity = -9.81f;
     [SerializeField] float jumpForce = 10;
+
     
     // private variables
     Vector3 velocity;
@@ -25,12 +26,16 @@ public class FPSController : MonoBehaviour
     List<Gun> equippedGuns = new List<Gun>();
     int gunIndex = 0;
     Gun currentGun = null;
+    
+    [SerializeField] int damage = 20;
 
     // properties
     public GameObject Cam { get { return cam; } }
 
     // Unity Events
     public UnityAction interaction;
+    public UnityEvent<int> takingDamage;
+    public UnityEvent flashRed;
 
     private void Awake()
     {
@@ -174,6 +179,8 @@ public class FPSController : MonoBehaviour
             var collisionPoint = hit.collider.ClosestPoint(transform.position);
             var knockbackAngle = (transform.position - collisionPoint).normalized;
             velocity = (20 * knockbackAngle);
+            takingDamage?.Invoke(damage);
+            flashRed?.Invoke();
         }
     }
 
