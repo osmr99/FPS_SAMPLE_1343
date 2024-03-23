@@ -20,6 +20,7 @@ public class Gun : MonoBehaviour
 
     // Unity event
     public UnityEvent<int> updateAmmoHUD;
+    public UnityEvent shakingEffect;
 
     // Start is called before the first frame update
     void Start()
@@ -51,6 +52,7 @@ public class Gun : MonoBehaviour
         timeBetweenShots = 0;
         ammo -= 1;
         updateAmmoHUD?.Invoke(ammo);
+        shakingEffect?.Invoke();
 
         return true;
     }
